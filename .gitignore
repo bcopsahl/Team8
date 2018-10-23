@@ -1,1 +1,8 @@
+<<<<<<< HEAD
 /.metadata/
+=======
+*.class
+*.jar
+*.ear
+*.war
+>>>>>>> aab1684aee3c8a94cde461ee187d242666f78e92
