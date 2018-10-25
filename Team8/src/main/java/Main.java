@@ -1,13 +1,15 @@
+package main.java;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Main {
 
 	// list of all cells
-	private static ArrayList<Cell> cells;
+	private ArrayList<Cell> cells;
 	
 	// populates empty list with 100 cells that have a 20% chance of being alive
-	public void populate() {
+	public void populate( ) {
 		
 		Random rand = new Random(System.nanoTime());
 		
@@ -44,9 +46,9 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Main main = new Main();
-		cells = new ArrayList<Cell>();
+		main.cells = new ArrayList<Cell>();
 		
-		main.populate();
+		main.populate( );
 		
 		main.print();
 
