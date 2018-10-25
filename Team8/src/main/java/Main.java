@@ -35,9 +35,9 @@ public class Main {
 			lineCount++;
 			
 			if( c.getAlive() ) {
-				System.out.print("O");
+				System.out.print("O ");
 			} else {
-				System.out.print("X");
+				System.out.print("- ");
 			}
 		}
 		System.out.println();
