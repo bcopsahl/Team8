@@ -102,7 +102,7 @@ public class Main {
 	}
 
 	//makes a full new generation
-	public void generation(){
+	public void evolve(){
 		ArrayList<Cell> nextgen = new ArrayList<Cell>();
 
 		for(int i =0; i <size;i++) {
@@ -120,10 +120,9 @@ public class Main {
 		for( int i = 0; i <10; i++){
 			main.print();
 			System.out.println();
-			main.generation();
+			main.evolve();
 		}			
 
-		System.out.println("Nearby to cell 0: " + main.detectNearby(0));
 	}
 
 }
