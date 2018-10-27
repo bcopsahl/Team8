@@ -1,11 +1,47 @@
 apply plugin: 'java'
-
+apply plugin: 'jacoco'
 version = '0.0.1'
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testCompileOnly( 'junit:junit:4.12')
+	testImplementation( 'org.junit.jupiter:junit-jupiter-api:5.1.0')
+	testRuntimeOnly(
+		'org.junit.jupiter:junit-jupiter-api:5.1.0',
+		'org.junit.vintage:junit-vintage-engine:5.1.0'
+		)
+}
+test {
+	useJUnitPlatform()
+}
+
+
+
+
+
 jar {
 	 manifest {
 		attributes(
 		 'Implementation-Title': 'Gradle Quickstart',
 		 'Implementation-Version': version ,
 		 'Main-Class': 'main.java.Main')
+	}
+}
+
+jacoco {
+	toolVersion = "0.8.1"
+} 
+
+jacocoTestReport {
+	reports {
+		reports {
+			xml.enabled false
+			csv.enabled false
+			html.destination file("${buildDir}/jacocoHtml")
+			}
 	}
 }
