@@ -28,7 +28,7 @@ jar {
 		attributes(
 		 'Implementation-Title': 'Gradle Quickstart',
 		 'Implementation-Version': version ,
-		 'Main-Class': 'main.java.Main')
+		 'Main-Class': 'main.Main')
 	}
 }
 
