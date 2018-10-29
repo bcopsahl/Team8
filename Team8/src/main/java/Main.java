@@ -11,6 +11,20 @@ public class Main {
 	private int size = 100;
 	private int dimension = 10;
 	
+
+	//constructor sets dimention and calcualtes size of array 
+	public Main( int d ){
+		dimension = d;
+		size = d * d;
+		cells = new ArrayList<Cell>();
+	}
+
+	//needed a controlable way to make arrays for testing
+	public void populateWith( boolean alive ) {
+		for( int i = 0; i < size; i++ ){
+			cells.add( new Cell(alive) );
+		}
+	}
 	
 	// populates empty list with 100 cells that have a 20% chance of being alive
 	public void populate( ) {
@@ -26,7 +40,7 @@ public class Main {
 		}
 	}
 	// checks a three wide row if things are alive 
-	public int leftRight(int index){
+	private int leftRight( int index ){
 		int count = 0;
 		if((index % dimension) <= (dimension - 1)) {
 			if(index>0 && cells.get(index-1).getAlive()){
@@ -110,10 +124,11 @@ public class Main {
 		}
 		cells = nextgen;
 	}
+
 	
 	public static void main(String[] args) {
 		
-		Main main = new Main();
+		Main main = new Main(10);
 		main.cells = new ArrayList<Cell>();
 		
 		main.populate( );
