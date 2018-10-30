@@ -127,12 +127,16 @@ public class Main {
 
 	
 	public static void main(String[] args) {
-		
+		int a;
+		if (args.length > 0 && args[0] != null) {
+			 a = Integer.parseInt(args[0]);
+		} else {
+			 a = 10;
+		}
 		Main main = new Main(10);
-		main.cells = new ArrayList<Cell>();
 		
 		main.populate( );
-		for( int i = 0; i <10; i++){
+		for( int i = 0; i <a; i++){
 			main.print();
 			System.out.println();
 			main.evolve();
