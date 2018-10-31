@@ -26,4 +26,12 @@ public class CellTest {
 		System.out.println("test we can kill a cell");
 	}
 
+	@Test 
+	public void checkEquality() {
+		// I think this is pretty much useless now but migh be better later 
+		assertTrue(testCell.equals(testCell));
+		assertFalse(testCell.equals(new Cell(false)));
+
+	}
+
 }
