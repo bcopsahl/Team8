@@ -1,5 +1,5 @@
 import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import main.*;
 public class LocationTest {
 	static Location loc;
@@ -16,19 +16,28 @@ public class LocationTest {
 	}
 	@Test
 	public void checkEquals() {
-		assertTrue(loc.equals(loc));
-
+		assertAll(".equals Checks",
+		() -> assertTrue(loc.equals(loc)),
+		()-> {
+			Location Test = new Location(1,1);
+			assertFalse(Test.equals(loc));
+			}
+		);
 	}
 	@Test
 	public void getParams() {
-		assertEquals(0,loc.getX());
-		assertEquals(0,loc.getY());
+		assertAll("getting X and Y",
+		() -> assertEquals(0,loc.getX()),
+		() -> assertEquals(0,loc.getY())
+		);
 	}
 
 	@Test
 	public void initializations() {
-		assertEquals(loc,new Location());
-		assertEquals(new Location(), new Location(0,0));
+		assertAll("Make all sure the init methods behave",
+		() -> assertEquals(loc,new Location()),
+		() -> assertEquals(new Location(), new Location(0,0))
+		);
 	}
 
 	@Test
