@@ -5,18 +5,23 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.List;
+import java.io.Writer;
+import java.io.PrintWriter;
+import java.io.IOException;
 
 public class Main {
 
 	// list of all cells
 	private Map<Location,Cell> cells;
 	
+	private Writer writer;
 	private int Ydimension = 10;
 	private int Xdimension = 10;
 	
 
 	//constructor sets dimention and calcualtes size of array 
 	public Main( int x,int y ){
+		writer = new PrintWriter(System.out);
 		Xdimension = x;
 		Ydimension = y;
 		cells = new HashMap<Location,Cell>();
@@ -90,20 +95,26 @@ public class Main {
 	//print function	
 	public void print() {
 		Location l = new Location();
+		StringBuilder string = new StringBuilder();
+
 		for( int y = 0; y < Ydimension;y++){
 			for( int x = 0; x < Xdimension; x++){
 				l.setLocation(x,y);
 				if(cells.containsKey(l)){
-					System.out.print("0 ");
+					string.append("0 ");
 				} else {
 
-					System.out.print("- ");
+					string.append("- ");
 				}
 			}
-			System.out.println();
-
+			string.append("\n");
 		}		
-		System.out.println();
+		try{
+			writer.write(string.toString());
+			writer.flush();
+		} catch (IOException ex) {
+			ex.printStackTrace();	
+		}
 	}
 
 	//makes a full new generation
@@ -127,14 +138,26 @@ public class Main {
 
 	
 	public static void main(String[] args) {
-		int a;
+		int a,x,y;
 		if (args.length > 0 && args[0] != null) {
 			 a = Integer.parseInt(args[0]);
 		} else {
 			 a = 10;
 		}
-		Main main = new Main(10,10);
-		main.populateWith(false);
+		if (args.length > 1 && args[1] != null) {
+			x = Integer.parseInt(args[1]);
+
+		} else {
+			x = 10;
+		}
+		if(args.length > 2 && args[2] != null){
+			y = Integer.parseInt(args[2]);
+		} else {
+			y = 10;
+		} 
+
+		Main main = new Main(x,y);
+		main.populate();
 		for( int i = 0; i <a; i++){
 			main.print();
 			System.out.println();

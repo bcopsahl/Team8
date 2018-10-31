@@ -4,15 +4,12 @@ import main.*;
 public class CellTest {
 	static Cell testCell;
 
-	@Test
-	public void Example() {
-		System.out.println("Example test runs");
-	}
 
 	@Before
 	public  void setup(){
 		testCell = new Cell(true);
 	}
+
 	@Test 
 	public void CellisAlive() {
 		assertTrue(testCell.getAlive());
@@ -23,7 +20,13 @@ public class CellTest {
 	public void killCell() {
 		testCell.setAlive(false);
 		assertFalse(testCell.getAlive());
-		System.out.println("test we can kill a cell");
+	}
+
+	@Test
+	public void reviveCell(){
+		testCell.setAlive(false);
+		testCell.setAlive(true);
+		assertTrue(testCell.getAlive());
 	}
 
 	@Test 
