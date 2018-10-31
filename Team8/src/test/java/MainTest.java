@@ -37,10 +37,21 @@ public class MainTest {
 
 	}
 
+	@Test 
+	public void aliveOrDead() {
+		assertFalse(testMain.aliveOrDead(loc));
+		testMain.populateWith(true);
+		assertTrue(testMain.aliveOrDead(loc));
+	}
 
-
-
-
+	@Test 
+	public void evolvingLiveFields(){
+		testMain.populateWith(true);
+		testMain.evolve();
+		assertTrue(testMain.aliveOrDead(loc));
+		testMain.evolve();
+		assertFalse(testMain.aliveOrDead(loc));
+	}
 
 
 }
