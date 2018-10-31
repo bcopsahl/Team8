@@ -1,29 +1,36 @@
 package main;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.List;
 
 public class Main {
 
 	// list of all cells
-	private ArrayList<Cell> cells;
+	private Map<Location,Cell> cells;
 	
-	private int size = 100;
-	private int dimension = 10;
+	private int Ydimension = 10;
+	private int Xdimension = 10;
 	
 
 	//constructor sets dimention and calcualtes size of array 
-	public Main( int d ){
-		dimension = d;
-		size = d * d;
-		cells = new ArrayList<Cell>();
+	public Main( int x,int y ){
+		Xdimension = x;
+		Ydimension = y;
+		cells = new HashMap<Location,Cell>();
 	}
 
 	//needed a controlable way to make arrays for testing
 	public void populateWith( boolean alive ) {
-		for( int i = 0; i < size; i++ ){
-			cells.add( new Cell(alive) );
-		}
+		if(alive){
+			for( int x = 0; x < Xdimension; x++){
+				for( int y = 0; y < Ydimension; y++ ){
+					cells.put(new Location(x,y), new Cell(alive) );
+				}
+			}
+		}	
 	}
 	
 	// populates empty list with 100 cells that have a 20% chance of being alive
@@ -31,56 +38,43 @@ public class Main {
 		
 		Random rand = new Random(System.nanoTime());
 		
-		for( int i = 0; i < size; i++ ) {
-			if( rand.nextInt(5) <= 0 ) {
-				cells.add( new Cell(true) );
-			} else {
-				cells.add( new Cell(false) );
+		for( int x = 0; x < Xdimension; x++){
+			for( int y = 0; y < Ydimension; y++ ){
+				if( rand.nextInt(5) <= 0) {
+					cells.put(new Location(x,y),new Cell(true));
+				}
 			}
 		}
 	}
-	// checks a three wide row if things are alive 
-	private int leftRight( int index ){
-		int count = 0;
-		if((index % dimension) <= (dimension - 1)) {
-			if(index>0 && cells.get(index-1).getAlive()){
-				count++;
-			}
-		}
-		if((index % dimension) >= 0 ){
-			if(index+1 < size && cells.get(index+1).getAlive()){
-				count++;
-			}
-		}
-		if( index < size && cells.get(index).getAlive()){
-			count++;
-		}
-		return count;
-	} 
+
+
 	
 	//takes a cell index position and outputs the number of alive cells nearby
-	public int detectNearby(int index) {
+	public int detectNearby(Location location) {
+		int X,Y;
+		X = location.getX();
+		Y = location.getY();
 		int nearbycount = 0;
-		
-		//top three cells
-		if(index > dimension) {
-			nearbycount += leftRight(index-dimension);
+		Location localInstance = new Location();
+		for(int x = X-1; x <= X+1 ; x++){
+			for(int y = Y-1; y <= Y+1 ;y++){
+				localInstance.setLocation(x,y);
+				if( cells.containsKey(localInstance)){
+					nearbycount++;
+				}
+			}
 		}
-		//middle three cells
-		nearbycount += leftRight(index);
-		if(cells.get(index).getAlive()){
+		if( cells.containsKey(location) ) {
 			nearbycount--;
-		}
-		//Bottom three cells
-		if(index < size && (index + dimension) < size) {
-			nearbycount += leftRight(index + dimension);
 		}
 		return nearbycount;
 	}
+
+
 	//based on the number of alive cells nearby returns if the cell is alive
-	public boolean aliveOrDead(int index) {
-		int count = detectNearby(index);
-		if( cells.get(index).getAlive()){
+	public boolean aliveOrDead(Location location) {
+		int count = detectNearby(location);
+		if( cells.containsKey(location)){
 			if ( count == 2 || count == 3) {
 				return true;
 			}
@@ -95,32 +89,38 @@ public class Main {
 
 	//print function	
 	public void print() {
-		
-		int lineCount = 0;
-		
-		for( Cell c: cells ) {
-			if( lineCount >= dimension ) {
-				System.out.println();
-				lineCount = 0;
+		Location l = new Location();
+		for( int y = 0; y < Ydimension;y++){
+			for( int x = 0; x < Xdimension; x++){
+				l.setLocation(x,y);
+				if(cells.containsKey(l)){
+					System.out.print("0 ");
+				} else {
+
+					System.out.print("- ");
+				}
 			}
-			
-			lineCount++;
-			
-			if( c.getAlive() ) {
-				System.out.print("O ");
-			} else {
-				System.out.print("- ");
-			}
-		}
+			System.out.println();
+
+		}		
 		System.out.println();
 	}
 
 	//makes a full new generation
 	public void evolve(){
-		ArrayList<Cell> nextgen = new ArrayList<Cell>();
-
-		for(int i =0; i <size;i++) {
-			nextgen.add(i,new Cell(aliveOrDead(i)));
+		Map<Location,Cell> nextgen = new HashMap<Location,Cell>();
+		List<Location>  a;
+		Set<Location> b = cells.keySet();
+		for(Location l : b){
+			a = l.around();
+			for( Location i : a){
+				if( aliveOrDead(i) && !nextgen.containsKey(i)) {
+					nextgen.put(i,new Cell(true));
+				}
+			}
+			if( aliveOrDead(l) && !nextgen.containsKey(l)) {
+				nextgen.put(l,new Cell(true));
+			}
 		}
 		cells = nextgen;
 	}
@@ -133,9 +133,8 @@ public class Main {
 		} else {
 			 a = 10;
 		}
-		Main main = new Main(10);
-		
-		main.populate( );
+		Main main = new Main(10,10);
+		main.populateWith(false);
 		for( int i = 0; i <a; i++){
 			main.print();
 			System.out.println();
