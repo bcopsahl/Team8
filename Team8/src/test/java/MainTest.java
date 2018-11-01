@@ -14,9 +14,13 @@ public class MainTest {
 	@Test
 	public void populateAlive() {
 		testMain.populateWith(true);
-		assertEquals(3,testMain.detectNearby(loc));
-		loc.setLocation(1,1);
-		assertEquals(8,testMain.detectNearby(loc));
+		assertAll("Populate All alive",
+			() -> assertEquals(3,testMain.detectNearby(loc)),
+			() -> {
+				loc.setLocation(1,1);
+				assertEquals(8,testMain.detectNearby(loc));
+				}
+		);
 	}
 	@Test
 	public void populateDead() {
@@ -31,27 +35,31 @@ public class MainTest {
 		assertEquals(0,testMain.detectNearby(loc));
 	}
 
-	@Test
-	public void locationHash() {
-		assertTrue(loc.equals(loc));
-
-	}
 
 	@Test 
 	public void aliveOrDead() {
-		assertFalse(testMain.aliveOrDead(loc));
-		testMain.populateWith(true);
-		assertTrue(testMain.aliveOrDead(loc));
+		assertAll(" alive or dead ", 
+			() -> assertFalse(testMain.aliveOrDead(loc)),
+			() -> {
+				testMain.populateWith(true);
+				assertTrue(testMain.aliveOrDead(loc));
+			}
+		);
 	}
 
 	@Test 
 	public void evolvingLiveFields(){
 		testMain.populateWith(true);
 		testMain.evolve();
-		assertTrue(testMain.aliveOrDead(loc));
-		testMain.evolve();
-		assertFalse(testMain.aliveOrDead(loc));
+		assertAll("evolving live non toiroidal fields",
+			() -> assertTrue(testMain.aliveOrDead(loc)),
+			() -> {
+				testMain.evolve();
+				assertFalse(testMain.aliveOrDead(loc));
+			}
+		);
 	}
+
 
 
 }
