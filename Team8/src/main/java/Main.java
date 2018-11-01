@@ -15,23 +15,24 @@ public class Main {
 	private Map<Location,Cell> cells;
 	
 	private Writer writer;
-	private int Ydimension = 10;
-	private int Xdimension = 10;
+	private int xMin,yMin,xMax,yMax;
 	
 
 	//constructor sets dimention and calcualtes size of array 
 	public Main( int x,int y ){
 		writer = new PrintWriter(System.out);
-		Xdimension = x;
-		Ydimension = y;
+		yMin = 0;
+		xMin = 0;
+		xMax = x;
+		yMax = y;
 		cells = new HashMap<Location,Cell>();
 	}
 
 	//needed a controlable way to make arrays for testing
-	public void populateWith( boolean alive ) {
+	public void populate( boolean alive ) {
 		if(alive){
-			for( int x = 0; x < Xdimension; x++){
-				for( int y = 0; y < Ydimension; y++ ){
+			for( int x = xMin; x <= xMax; x++){
+				for( int y = yMin; y <= yMax; y++ ){
 					cells.put(new Location(x,y), new Cell(alive) );
 				}
 			}
@@ -43,8 +44,8 @@ public class Main {
 		
 		Random rand = new Random(System.nanoTime());
 		
-		for( int x = 0; x < Xdimension; x++){
-			for( int y = 0; y < Ydimension; y++ ){
+		for( int x = xMin; x < xMax; x++){
+			for( int y = yMin; y < yMax; y++ ){
 				if( rand.nextInt(5) <= 0) {
 					cells.put(new Location(x,y),new Cell(true));
 				}
@@ -96,9 +97,8 @@ public class Main {
 	public void print() {
 		Location l = new Location();
 		StringBuilder string = new StringBuilder();
-
-		for( int y = 0; y < Ydimension;y++){
-			for( int x = 0; x < Xdimension; x++){
+		for( int y = yMin; y <= yMax;y++){
+			for( int x = xMin; x <= xMax; x++){
 				l.setLocation(x,y);
 				if(cells.containsKey(l)){
 					string.append("0 ");
@@ -124,9 +124,13 @@ public class Main {
 		Set<Location> b = cells.keySet();
 		for(Location l : b){
 			a = l.around();
-			for( Location i : a){
-				if( aliveOrDead(i) && !nextgen.containsKey(i)) {
-					nextgen.put(i,new Cell(true));
+			for( Location loc : a){
+				if( aliveOrDead(loc) && !nextgen.containsKey(loc)) {
+					nextgen.put(loc,new Cell(true));
+					xMin = (loc.getX() < xMin) ? loc.getX() : xMin;
+					yMin = (loc.getY() < yMin) ? loc.getY() : yMin;
+					xMax = (loc.getX() > xMax) ?  loc.getX() : xMax;
+					yMax = (loc.getY() > yMax) ?  loc.getY() : yMax;
 				}
 			}
 			if( aliveOrDead(l) && !nextgen.containsKey(l)) {
@@ -156,7 +160,7 @@ public class Main {
 			y = 10;
 		} 
 
-		Main main = new Main(x,y);
+		Main main = new Main(x-1,y-1);
 		main.populate();
 		for( int i = 0; i <a; i++){
 			main.print();

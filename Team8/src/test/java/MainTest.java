@@ -13,7 +13,7 @@ public class MainTest {
 
 	@Test
 	public void populateAlive() {
-		testMain.populateWith(true);
+		testMain.populate(true);
 		assertAll("Populate All alive",
 			() -> assertEquals(3,testMain.detectNearby(loc)),
 			() -> {
@@ -24,13 +24,13 @@ public class MainTest {
 	}
 	@Test
 	public void populateDead() {
-		testMain.populateWith(false);
+		testMain.populate(false);
 		assertEquals(0,testMain.detectNearby(loc));
 
 	}
 	@Test
 	public void evolveDead() {
-		testMain.populateWith(false);
+		testMain.populate(false);
 		testMain.evolve();
 		assertEquals(0,testMain.detectNearby(loc));
 	}
@@ -41,7 +41,7 @@ public class MainTest {
 		assertAll(" alive or dead ", 
 			() -> assertFalse(testMain.aliveOrDead(loc)),
 			() -> {
-				testMain.populateWith(true);
+				testMain.populate(true);
 				assertTrue(testMain.aliveOrDead(loc));
 			}
 		);
@@ -49,7 +49,7 @@ public class MainTest {
 
 	@Test 
 	public void evolvingLiveFields(){
-		testMain.populateWith(true);
+		testMain.populate(true);
 		testMain.evolve();
 		assertAll("evolving live non toiroidal fields",
 			() -> assertTrue(testMain.aliveOrDead(loc)),
