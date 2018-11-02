@@ -15,8 +15,8 @@ public class Main {
 
 
 	//constructor sets dimention and calcualtes size of array
-	public Main(Board board){
-		board = board;
+	public Main(Board b){
+		board = b;
 	}
 
 	public void evolve(){

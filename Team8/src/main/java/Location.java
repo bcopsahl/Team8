@@ -28,6 +28,12 @@ public class Location {
 	public int getY(){
 		return Y;	
 	}
+	public void setX(int x){
+		X = x;
+	}
+	public void setY(int y){
+		Y = y;
+	}
 	public ArrayList<Location> around() {
 		ArrayList<Location> a = new ArrayList<Location>();
 		a.add(new Location(X-1,Y-1));

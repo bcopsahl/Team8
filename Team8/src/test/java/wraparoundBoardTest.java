@@ -1,20 +1,20 @@
 import org.junit.*;
 import static org.junit.jupiter.api.Assertions.*;
 import main.*;
-public class infiniteBoardTest{
+public class wraparoundBoardTest{
 	static Board board;
 	static Location location;
 	@Before
 	public void setup(){
-		board = new infiniteBoard();
+		board = new wraparoundBoard();
 		location = new Location();
 	}
 	@Test
 	public void populateALive(){
 		board.populate(true);
 		assertAll("all alive tests",
-			() -> assertTrue(board.aliveOrDead(location)),
-			() -> assertEquals(3,board.detectNearby(location))
+			() -> assertFalse(board.aliveOrDead(location)),
+			() -> assertEquals(8,board.detectNearby(location))
 			);
 	}
 	@Test
@@ -22,8 +22,18 @@ public class infiniteBoardTest{
 		board.populate(true);
 		board.evolve();
 		assertAll("evolving alive fields",
-			() -> assertTrue(board.aliveOrDead(location)),
-			() -> assertEquals(2,board.detectNearby(location))
+			() -> assertFalse(board.aliveOrDead(location)),
+			() -> assertEquals(0,board.detectNearby(location))
+			);
+	}
+	@Test
+	public void evolveTwice(){
+		board.populate(true);
+		board.evolve();
+		board.evolve();
+		assertAll("evolving alive fields a second time", 
+			() -> assertFalse(board.aliveOrDead(location)),
+			() -> assertEquals(0,board.detectNearby(location))
 			);
 	}
 	@Test

@@ -25,5 +25,14 @@ public class BoardTest{
 			() -> assertEquals(0,board.detectNearby(location))
 		);
 	}	
-	
+	@Test
+	public void populateDiffSize(){
+		board = new Board(2,2);
+		board.populate(false);	
+		assertAll("dead two by two",
+			() -> assertFalse(board.aliveOrDead(location)),
+			() -> assertEquals(0,board.detectNearby(location))
+		);
+		
+	}
 }

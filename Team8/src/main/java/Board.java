@@ -1,4 +1,5 @@
 package main;
+import java.lang.Exception;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -6,16 +7,18 @@ import java.util.Random;
 import java.io.Writer;
 import java.io.PrintWriter;
 import java.util.Set;
+import java.util.ArrayList;
 
 public class Board {
 	protected Map<Location,Cell> cells;
 	protected int xMin,yMin,xMax,yMax;
-	private Writer writer;
+	protected Writer writer;
 
 	public Board(){
 		xMin = yMin =   0;
 		xMax = yMax = 10;
 		cells = new HashMap<Location,Cell>();
+		writer = new PrintWriter(System.out);
 	}
 
 	public Board(int x, int y){
@@ -23,6 +26,7 @@ public class Board {
 		xMax = x;
 		yMax = y;
 		cells = new HashMap<Location,Cell>();
+		writer = new PrintWriter(System.out);
 	}
 
 	public void populate(){
@@ -46,22 +50,13 @@ public class Board {
 		}
 	}
 
-	public int detectNearby(Location location) {
-		int X,Y;
-		X = location.getX();
-		Y = location.getY();
+	public int detectNearby(Location location) {	
 		int nearbycount = 0;
-		Location localInstance = new Location();
-		for(int x = X-1; x <= X+1 ; x++){
-			for(int y = Y-1; y <= Y+1 ;y++){
-				localInstance.setLocation(x,y);
-				if( cells.containsKey(localInstance)){
-					nearbycount++;
-				}
+		ArrayList<Location> around = location.around();
+		for( Location l : around){
+			if(cells.containsKey(l)){
+				nearbycount++;		
 			}
-		}
-		if( cells.containsKey(location) ) {
-			nearbycount--;
 		}
 		return nearbycount;
 	}
@@ -98,7 +93,7 @@ public class Board {
 		try{
 			writer.write(string.toString());
 			writer.flush();
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
