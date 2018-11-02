@@ -35,4 +35,12 @@ public class BoardTest{
 		);
 		
 	}
+	@Test
+	public void serialize() {
+		board.populate(true);
+		board.serialize();
+		board.evolve();
+		board.deSerialize();
+		assertTrue(board.aliveOrDead(location));
+	}
 }

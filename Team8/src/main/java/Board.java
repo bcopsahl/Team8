@@ -6,10 +6,16 @@ import java.util.Map;
 import java.util.Random;
 import java.io.Writer;
 import java.io.PrintWriter;
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.lang.ClassNotFoundException;
 import java.util.Set;
 import java.util.ArrayList;
 
-public class Board {
+public class Board implements Serializable  {
 	protected Map<Location,Cell> cells;
 	protected int xMin,yMin,xMax,yMax;
 	protected Writer writer;
@@ -93,9 +99,36 @@ public class Board {
 		try{
 			writer.write(string.toString());
 			writer.flush();
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public void serialize(){
+		try {
+			FileOutputStream fileout = new FileOutputStream("/tmp/Board.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileout);
+			out.writeObject(this);
+			out.close();
+			fileout.close();
+		} catch(IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+	public Board deSerialize(){
+		Board b = null;
+		try {
+			FileInputStream infile = new FileInputStream("/tmp/Board.ser");
+			ObjectInputStream in = new ObjectInputStream(infile);
+			b = (Board) in.readObject();
+			in.close();
+			infile.close();
+		} catch(IOException ex) {
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		return b;
 	}
 
 	public void evolve(){
