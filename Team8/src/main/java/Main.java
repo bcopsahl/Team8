@@ -49,9 +49,9 @@ public class Main {
 			x = 10;
 			y = 10;
 		}
-		Board board = new infiniteBoard(x,y);
+		Board board = new boundedBoard(x,y);
 		Main main = new Main(board);
-		main.populate();
+		main.populate(true);
 		for( int i = 0; i <a; i++){
 			main.print();
 			System.out.println();
