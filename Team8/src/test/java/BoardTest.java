@@ -38,9 +38,10 @@ public class BoardTest{
 	@Test
 	public void serialize() {
 		board.populate(true);
-		board.serialize();
-		board.evolve();
-		board.deSerialize();
-		assertTrue(board.aliveOrDead(location));
+		board.save("/tmp/Board.ser");
+		board = new Board();
+		board.populate(false);
+		board = board.load("/tmp/Board.ser");
+		assertEquals(3,board.detectNearby(location));
 	}
 }

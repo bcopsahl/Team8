@@ -1,8 +1,13 @@
 package main;
 import java.util.Objects;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.io.IOException;
 
-public class Cell {
 
+public class Cell implements Serializable{
+	private static final long serialversionUID = 12394994272828L;
 	private boolean alive;
 	
 	public Cell( boolean isAlive ) {
@@ -25,5 +30,12 @@ public class Cell {
 	public boolean equals(Object c){
 		return hashCode() == c.hashCode();
 
+	}
+	private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
+		inputStream.defaultReadObject();
+		//maybe do some validation here? idk
+	}
+	private void writeObject(ObjectOutputStream outputStream) throws IOException {
+		outputStream.defaultWriteObject();
 	}
 }

@@ -18,13 +18,11 @@ import java.util.ArrayList;
 public class Board implements Serializable  {
 	protected Map<Location,Cell> cells;
 	protected int xMin,yMin,xMax,yMax;
-	protected Writer writer;
 
 	public Board(){
 		xMin = yMin =   0;
 		xMax = yMax = 10;
 		cells = new HashMap<Location,Cell>();
-		writer = new PrintWriter(System.out);
 	}
 
 	public Board(int x, int y){
@@ -32,8 +30,7 @@ public class Board implements Serializable  {
 		xMax = x;
 		yMax = y;
 		cells = new HashMap<Location,Cell>();
-		writer = new PrintWriter(System.out);
-	}
+	}	
 
 	public void populate(){
 		Random rand = new Random(System.nanoTime());
@@ -84,6 +81,7 @@ public class Board implements Serializable  {
 	public void print() {
 		Location l = new Location();
 		StringBuilder string = new StringBuilder();
+		Writer writer = new PrintWriter(System.out);
 		for( int y = yMin; y <= yMax;y++){
 			for( int x = xMin; x <= xMax; x++){
 				l.setLocation(x,y);
@@ -104,9 +102,9 @@ public class Board implements Serializable  {
 		}
 	}
 
-	public void serialize(){
+	public void save(String saveFile){
 		try {
-			FileOutputStream fileout = new FileOutputStream("/tmp/Board.ser");
+			FileOutputStream fileout = new FileOutputStream(saveFile);
 			ObjectOutputStream out = new ObjectOutputStream(fileout);
 			out.writeObject(this);
 			out.close();
@@ -115,10 +113,10 @@ public class Board implements Serializable  {
 			ex.printStackTrace();
 		}
 	}
-	public Board deSerialize(){
+	public Board load(String loadFile){
 		Board b = null;
 		try {
-			FileInputStream infile = new FileInputStream("/tmp/Board.ser");
+			FileInputStream infile = new FileInputStream(loadFile);
 			ObjectInputStream in = new ObjectInputStream(infile);
 			b = (Board) in.readObject();
 			in.close();

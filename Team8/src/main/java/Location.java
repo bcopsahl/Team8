@@ -2,11 +2,15 @@ package main;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.IOException;
+import java.io.Serializable;
 
-public class Location {
+public class Location implements Serializable{
 	private int X;
 	private int Y;
-
+	private static final long serialversionUID = 234566123459L;
 	public void setLocation(int x, int y ){
 		X = x;
 		Y = y;
@@ -55,4 +59,17 @@ public class Location {
 	public boolean equals(Object l){
 		return hashCode() == l.hashCode();
 	}
+	private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
+		inputStream.defaultReadObject();
+
+	}
+	private void writeObject(ObjectOutputStream outputStream) throws  IOException {
+		outputStream.defaultWriteObject();
+
+	}
+
+
+
+
+
 }
