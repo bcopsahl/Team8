@@ -14,22 +14,29 @@ public class wraparoundBoard extends Board {
   }
   @Override
   public void evolve(){
-    Map<Location,Cell> nextgen = new HashMap<Location,Cell>();
-		List<Location>  a;
-		Set<Location> b = cells.keySet();
-		for(Location l : b){
-			a = l.around();
-			for( Location loc : a){
-				wrapAround(loc);
-				if( aliveOrDead(loc) && !nextgen.containsKey(loc)) {
-						nextgen.put(loc,new Cell(true));
-				}
-			}
-			if( aliveOrDead(l) && !nextgen.containsKey(l)) {
-				nextgen.put(l,new Cell(true));
+ 	Map<Location,Cell> nextgen = new HashMap<Location,Cell>();
+	List<Location>  a;
+	//this does not really need to be a map but it is fast and im lazy
+	Map<Location,Boolean> removedCells = new HashMap<Location,Boolean>();
+	Set<Location> b = cells.keySet();
+	for(Location l : b){
+		a = l.around();
+		for( Location loc : a){
+			wrapAround(loc);
+			if( aliveOrDead(loc) ) {
+				nextgen.putIfAbsent(loc,new Cell(true));
 			}
 		}
-		cells = nextgen;
+		if( !aliveOrDead(l) ) {
+			removedCells.putIfAbsent(l,true);
+		}
+	}
+	for(Location l: removedCells.keySet()){
+		cells.remove(l);
+	}
+	for(Location l: nextgen.keySet()){
+		cells.put(l, new Cell(true));
+	}
   }
 
   @Override
@@ -47,11 +54,9 @@ public class wraparoundBoard extends Board {
   }
 
   private void wrapAround(Location loc){
-	loc.setX(loc.getX() > xMax ? loc.getX():xMax);
-	loc.setX(loc.getX() < xMin ? loc.getX():xMin);
-	loc.setY(loc.getY() > yMax ? loc.getY():yMax);
-	loc.setY(loc.getY() < yMin ? loc.getY():yMin);
+	loc.setX(loc.getX() <= xMax ? loc.getX():xMin);
+	loc.setX(loc.getX() >= xMin ? loc.getX():xMax);
+	loc.setY(loc.getY() <= yMax ? loc.getY():yMin);
+	loc.setY(loc.getY() >= yMin ? loc.getY():yMax);
   }
-
-
 }

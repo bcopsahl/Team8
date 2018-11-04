@@ -14,24 +14,30 @@ public class boundedBoard extends Board {
   }
   @Override
   public void evolve(){
-    Map<Location,Cell> nextgen = new HashMap<Location,Cell>();
-		List<Location>  a;
-		Set<Location> b = cells.keySet();
-		for(Location l : b){
-			a = l.around();
-			for( Location loc : a){
-				if(!inBounds(loc)){
-					continue;
-				}
-				if( aliveOrDead(loc) && !nextgen.containsKey(loc)) {
-						nextgen.put(loc,new Cell(true));
-				}
+	Map<Location,Cell> nextgen = new HashMap<Location,Cell>();
+	List<Location>  a;
+	Map<Location,Boolean> removedCells = new HashMap<Location,Boolean>();
+	Set<Location> b = cells.keySet();
+	for(Location l : b){
+		a = l.around();
+		for( Location loc : a){
+			if(!inBounds(loc)){
+				continue;
 			}
-			if( aliveOrDead(l) && !nextgen.containsKey(l)) {
-				nextgen.put(l,new Cell(true));
+			if( aliveOrDead(loc)) {
+				nextgen.putIfAbsent(loc,new Cell(true));
 			}
 		}
-		cells = nextgen;
+		if( !aliveOrDead(l)) {
+			removedCells.putIfAbsent(l,true);
+		}
+	}
+	for(Location l: removedCells.keySet()){
+		cells.remove(l);
+	}
+	for(Location l: nextgen.keySet()){
+		cells.putIfAbsent(l,new Cell(true));
+	}
   }
 
   private boolean inBounds(Location loc){

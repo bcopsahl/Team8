@@ -82,18 +82,19 @@ public class Board implements Serializable  {
 		Location l = new Location();
 		StringBuilder string = new StringBuilder();
 		Writer writer = new PrintWriter(System.out);
+		StringBuilder horizontalLine = new StringBuilder();
 		for( int y = yMin; y <= yMax;y++){
 			for( int x = xMin; x <= xMax; x++){
 				l.setLocation(x,y);
 				if(cells.containsKey(l)){
-					string.append("0 ");
+					string.append(" 0");
 				} else {
-
-					string.append("- ");
+					string.append(" -");
 				}
 			}
 			string.append("\n");
 		}
+		string.append("\n");
 		try{
 			writer.write(string.toString());
 			writer.flush();
@@ -132,5 +133,4 @@ public class Board implements Serializable  {
 	public void evolve(){
 		System.out.println("implement this yourself damn it");
 	}
-
 }
