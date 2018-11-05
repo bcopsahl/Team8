@@ -50,6 +50,7 @@ public class Main {
 			y = 10;
 		}
 		Board board = new wraparoundBoard(x,y);
+		board.readUserSizeInput();
 		Main main = new Main(board);
 		main.populate();
 		for( int i = 0; i <a; i++){
