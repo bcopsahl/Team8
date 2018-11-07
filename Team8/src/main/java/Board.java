@@ -136,21 +136,4 @@ public class Board implements Serializable  {
 		System.out.println("implement this yourself damn it");
 	}
 	
-	public void readUserSizeInput() {
-	    Scanner reader = new Scanner(System.in);
-	    System.out.println("Infinite? select y for yes:");
-	    String inf = reader.nextLine();
-	    if(inf.equals("y"))
-	    	isInfinite = true;
-	    else
-	    	isInfinite = false;
-	    if(!isInfinite)
-	    {
-	      System.out.println("Enter the x dimension: ");
-	      xMax = reader.nextInt();	    
-	      System.out.println("Enter the y dimension: ");
-	      yMax = reader.nextInt();
-	    }
-	
-	}
 }

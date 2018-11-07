@@ -35,25 +35,11 @@ public class Main {
 
 
 
+
 	public static void main(String[] args) {
-		int a,x,y;
-		if (args.length > 0 && args[0] != null) {
-			 a = Integer.parseInt(args[0]);
-		} else {
-			 a = 10;
-		}
-		if(args.length > 2 && args[2] != null){
-			y = Integer.parseInt(args[2]);
-			x = Integer.parseInt(args[1]);
-		} else {
-			x = 10;
-			y = 10;
-		}
-		Board board = new wraparoundBoard(x,y);
-		board.readUserSizeInput();
-		Main main = new Main(board);
+		Main main = new Main(new BoardFactory().readUserSizeInput());
 		main.populate();
-		for( int i = 0; i <a; i++){
+		for( int i = 0; i <10; i++){
 			main.print();
 			main.evolve();
 		}

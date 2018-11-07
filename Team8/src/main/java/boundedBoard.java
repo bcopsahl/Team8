@@ -29,19 +29,19 @@ public class boundedBoard extends Board {
 			}
 		}
 		if( !aliveOrDead(l)) {
-			removedCells.putIfAbsent(l,true);
+			removedCells.put(l,true);
 		}
 	}
 	for(Location l: removedCells.keySet()){
 		cells.remove(l);
 	}
 	for(Location l: nextgen.keySet()){
-		cells.putIfAbsent(l,new Cell(true));
+		cells.put(l,new Cell(true));
 	}
   }
 
   private boolean inBounds(Location loc){
-	return loc.getX() < xMax && loc.getX() > xMin && loc.getY() > yMax && loc.getY() < yMin;
+	return (loc.getX() <= xMax) && (loc.getX() >= xMin) && (loc.getY() <= yMax) && (loc.getY() >= yMin);
   }
 
 
