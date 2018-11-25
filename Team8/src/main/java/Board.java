@@ -84,11 +84,24 @@ public class Board implements Serializable  {
         return false;
     }
 
+    private void clear(){
+        ProcessBuilder pb = new ProcessBuilder("clear");
+        pb.inheritIO();
+        try {
+            Process process = pb.start();
+            process.waitFor();
+        } catch ( Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void print() {
         Location l = new Location();
         StringBuilder string = new StringBuilder();
         Writer writer = new PrintWriter(System.out);
         StringBuilder horizontalLine = new StringBuilder();
+        clear();
         for( int y = yMin; y <= yMax;y++){
             for( int x = xMin; x <= xMax; x++){
                 l.setLocation(x,y);
