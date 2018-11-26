@@ -1,10 +1,11 @@
 import org.junit.*;
 import static org.junit.jupiter.api.Assertions.*;
+import  org.junit.jupiter.api.*;
 import main.*;
 public class infiniteBoardTest{
 	static Board board;
 	static Location location;
-	@Before
+	@BeforeEach
 	public void setup(){
 		board = new infiniteBoard();
 		location = new Location();

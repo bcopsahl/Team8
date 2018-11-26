@@ -39,14 +39,18 @@ public class Board implements Serializable  {
     }
 
     public void populate(){
-        Random rand = new Random(System.nanoTime());
-        for( int x = xMin; x <= xMax; x++){
-            for( int y = yMin; y <= yMax; y++){
-                if(rand.nextInt(5) <= 0){
-                    cells.put(new Location(x,y), new Cell(true));
+        Random rand;
+        try{
+            for( int x = xMin; x <= xMax; x++){
+                rand =  new Random(System.nanoTime());
+                Thread.sleep(rand.nextInt(10));
+                for( int y = yMin; y <= yMax; y++){
+                    if(rand.nextInt(5) <= 0){
+                        cells.put(new Location(x,y), new Cell(true));
+                    }
                 }
             }
-        }
+           } catch(Exception e){}
     }
 
     public void populate(boolean alive){
@@ -108,7 +112,7 @@ public class Board implements Serializable  {
                 if(cells.containsKey(l)){
                     string.append(" 0");
                 } else {
-                    string.append(" -");
+                    string.append("  ");
                 }
             }
             string.append("\n");

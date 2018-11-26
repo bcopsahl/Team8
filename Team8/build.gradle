@@ -1,6 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'jacoco'
-version = '0.0.1'
+version = '0.1.1'
 
 
 repositories {
@@ -8,23 +8,17 @@ repositories {
 }
 
 dependencies {
-	testCompileOnly( 'junit:junit:4.3.1')
-	testImplementation( 'org.junit.jupiter:junit-jupiter-api:5.1.0')
-	testRuntimeOnly(
-		'org.junit.jupiter:junit-jupiter-api:5.1.0',
-		'org.junit.vintage:junit-vintage-engine:5.1.0'
-		)
-}
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.3.2")
+    testCompile("org.junit.jupiter:junit-jupiter-params:5.3.2")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.3.2")
+  }  
 test {
 	jacoco {
 		append = false
 		destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-
-
 	}
+    useJUnitPlatform()
 }
-
-
 
 
 
@@ -42,13 +36,13 @@ jacoco {
 } 
 
 jacocoTestReport {
-	reports {
-		reports {
-			xml.enabled false
-			csv.enabled false
-			html.destination file("${buildDir}/jacocoHtml")
-			}
-	}
+    reports {
+        html {
+            enabled true
+        }
+        xml.enabled true
+        csv.enabled false
+        }
 }
 jacocoTestReport.dependsOn test
 

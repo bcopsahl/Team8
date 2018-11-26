@@ -20,6 +20,9 @@ public class Location implements Serializable{
         X = 0;
         Y = 0;
     }
+    public String toString(){
+        return X+":"+Y;
+    }
 
     public Location(int x, int y) {
         X = x;
@@ -57,7 +60,13 @@ public class Location implements Serializable{
     }
     @Override
     public boolean equals(Object l){
-        return hashCode() == l.hashCode();
+        if ( l instanceof Location){
+            Location loc = (Location) l;
+            return  (getX() == loc.getX()) && (getY() == loc.getY());
+        }
+        return false;
+
+         
     }
     private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
         inputStream.defaultReadObject();

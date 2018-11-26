@@ -1,9 +1,15 @@
-import org.junit.*;
+package main;
 import static org.junit.jupiter.api.Assertions.*;
+import  org.junit.jupiter.api.*;
+import  org.junit.jupiter.params.ParameterizedTest;
+import  org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 import main.*;
+import java.util.List;
+import java.util.ArrayList;
 public class LocationTest {
 	static Location loc;
-	@Before
+	@BeforeEach
 	public void setup(){
 		loc = new Location(0,0);	
 		
@@ -24,6 +30,24 @@ public class LocationTest {
 			}
 		);
 	}
+    @ParameterizedTest(name = "{index} Location= ''{0}''")
+    @MethodSource
+    public void Equals(Location l){
+            assertFalse(loc.equals(l));
+    }
+
+    public static Stream<Location> Equals(){
+        List<Location> l = new ArrayList<Location>();
+        Location loc;
+        for(int x = -200; x <= 200; x++){
+            for(int y = -200; y <= 200; y++){
+                l.add(new Location(x,y));
+            }
+        }
+        return l.stream().filter(h -> !(h.getX()==0) && !(h.getY()==0));
+    }
+
+
 	@Test
 	public void getParams() {
 		assertAll("getting X and Y",

@@ -1,11 +1,12 @@
 import org.junit.*;
 import static org.junit.jupiter.api.Assertions.*;
+import  org.junit.jupiter.api.*;
 import main.*;
 public class CellTest {
 	static Cell testCell;
 
 
-	@Before
+	@BeforeEach
 	public  void setup(){
 		testCell = new Cell(true);
 	}
