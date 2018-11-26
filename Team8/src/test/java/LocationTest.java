@@ -38,8 +38,8 @@ public class LocationTest {
     public static Stream<Location> Equals(){
         List<Location> l = new ArrayList<Location>();
         Location loc;
-        for(int x = -200; x <= 200; x++){
-            for(int y = -200; y <= 200; y++){
+        for(int x = -20; x <= 20; x++){
+            for(int y = -20; y <= 20; y++){
                 l.add(new Location(x,y));
             }
         }

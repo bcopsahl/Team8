@@ -62,11 +62,8 @@ public class BoardFactory {
             e[k] = l.get(k).charValue();
         }
         String result = new String(e).replaceAll("\\r|\\n|\"","");
-        System.out.print(result);
-        System.out.print(result.length());
 
         int r =  Integer.valueOf(result);
-        System.out.print(r);
         return r-1;
     }
 
