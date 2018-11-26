@@ -34,11 +34,11 @@ public class Board implements Serializable  {
         cells = new HashMap<Location,Cell>();
     }
 
-    public boolean isDead(){
+    protected boolean isDead(){
        return cells.isEmpty();  
     }
 
-    public void populate(){
+    protected void populate(){
         Random rand;
         try{
             for( int x = xMin; x <= xMax; x++){
@@ -53,7 +53,7 @@ public class Board implements Serializable  {
            } catch(Exception e){}
     }
 
-    public void populate(boolean alive){
+    protected void populate(boolean alive){
         if(alive){
             for( int x = xMin; x <= xMax; x++){
                 for( int y = yMin; y <= yMax; y++){
@@ -63,7 +63,7 @@ public class Board implements Serializable  {
         }
     }
 
-    public int detectNearby(Location location) {    
+    protected int detectNearby(Location location) {    
         int nearbycount = 0;
         ArrayList<Location> around = location.around();
         for( Location l : around){
@@ -73,7 +73,7 @@ public class Board implements Serializable  {
         }
         return nearbycount;
     }
-    public boolean aliveOrDead(Location location) {
+    protected boolean aliveOrDead(Location location) {
         int count = detectNearby(location);
         if( cells.containsKey(location)){
             if ( count == 2 || count == 3) {
@@ -88,7 +88,7 @@ public class Board implements Serializable  {
         return false;
     }
 
-    private void clear(){
+    protected void clear(){
         ProcessBuilder pb = new ProcessBuilder("clear");
         pb.inheritIO();
         try {
@@ -100,7 +100,7 @@ public class Board implements Serializable  {
 
     }
 
-    public void print() {
+    protected void print() {
         Location l = new Location();
         StringBuilder string = new StringBuilder();
         Writer writer = new PrintWriter(System.out);
@@ -126,7 +126,7 @@ public class Board implements Serializable  {
         }
     }
 
-    public void save(String saveFile){
+    protected void save(String saveFile){
         try {
             FileOutputStream fileout = new FileOutputStream(saveFile);
             ObjectOutputStream out = new ObjectOutputStream(fileout);
@@ -137,7 +137,7 @@ public class Board implements Serializable  {
             ex.printStackTrace();
         }
     }
-    public Board load(String loadFile){
+    protected Board load(String loadFile){
         Board b = null;
         try {
             FileInputStream infile = new FileInputStream(loadFile);
@@ -153,7 +153,7 @@ public class Board implements Serializable  {
         return b;
     }
 
-    public void evolve(){
+    protected void evolve(){
         System.out.println("implement this yourself damn it");
     }
     

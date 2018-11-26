@@ -27,10 +27,10 @@ public class Main {
     public void print(){
         board.print();
     }
-    private void populate(){
+    protected void populate(){
         board.populate();
     }
-    private void populate(boolean alive){
+    protected void populate(boolean alive){
         board.populate(alive);
     }
 
