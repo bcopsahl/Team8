@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 public class BoardFactory {
 
-    public static Board  getBoard() {
+    public static Board  getSingleBoard() {
         int x,y;
         x = y = 10;
         Board result;
@@ -42,6 +42,14 @@ public class BoardFactory {
         return result;
     
     }
+    public static Board  getMultiBoard(){
+        return new boundedBoard(10,10);
+    }
+
+
+
+
+
     private static int getConsoleDimension(String dimension){
         if( System.getProperty("os.name").indexOf("nux")>=0){
             ProcessBuilder pb = new ProcessBuilder("tput",dimension);

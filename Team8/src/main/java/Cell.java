@@ -9,11 +9,20 @@ import java.io.IOException;
 public class Cell implements Serializable{
     private static final long serialversionUID = 12394994272828L;
     private boolean alive;
-    
+    private Player owner;
+     
     public Cell( boolean isAlive ) {
-        alive = isAlive;    
+        alive = isAlive;
+        owner = new Player();    
     }
-    
+    public Cell(Player p){
+        alive =true;
+        owner = p;
+    }
+    public String toString(){
+        return owner.toString();
+    }
+
     public boolean getAlive() {
         return alive;
     }

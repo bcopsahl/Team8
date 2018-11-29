@@ -62,6 +62,15 @@ public class Board implements Serializable  {
             }
         }
     }
+    public void add(Location loc, Cell cell){
+        cells.put(loc,cell);
+    }
+    public void kill(Location loc ){
+        cells.remove(loc);
+    }
+    public Cell get(Location loc){
+        return cells.get(loc);
+    }
 
     protected int detectNearby(Location location) {    
         int nearbycount = 0;
@@ -110,7 +119,8 @@ public class Board implements Serializable  {
             for( int x = xMin; x <= xMax; x++){
                 l.setLocation(x,y);
                 if(cells.containsKey(l)){
-                    string.append(" 0");
+                    string.append(" ");
+                    string.append(cells.get(l).toString());
                 } else {
                     string.append("  ");
                 }

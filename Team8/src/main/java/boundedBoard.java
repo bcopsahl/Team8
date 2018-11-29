@@ -18,6 +18,7 @@ public class boundedBoard extends Board {
     List<Location>  a;
     Map<Location,Boolean> removedCells = new HashMap<Location,Boolean>();
     Set<Location> b = cells.keySet();
+    Cell c;
     for(Location l : b){
         a = l.around();
         for( Location loc : a){
@@ -36,7 +37,12 @@ public class boundedBoard extends Board {
         cells.remove(l);
     }
     for(Location l: nextgen.keySet()){
-        cells.put(l,new Cell(true));
+        if(cells.containsKey(l)){
+            c = cells.get(l);
+        } else{
+            c = new Cell(true);
+        }
+        cells.put(l,c);
     }
   }
 
