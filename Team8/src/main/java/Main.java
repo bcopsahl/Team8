@@ -37,6 +37,7 @@ public class Main {
 
     private void turn(Player player){
         Scanner reader = new  Scanner(System.in);
+        System.out.printf("Hello %s \n",player.getName());
         System.out.println("You get three actions a turn.");
         System.out.println("You can [g]enerate a new cell,[k]ill one of your current cells,[p]ass your turn");
         for( int i = 0; i < 3; i++){
@@ -64,7 +65,7 @@ public class Main {
                     board.kill(location);
                     System.out.println("The cell has been brutally murdered you monster");
                 } else{
-                    System.out.println("THat cell is not yours");
+                    System.out.println("That cell is not yours");
                 }
 
             } else{
@@ -91,6 +92,7 @@ public class Main {
             int intPlayers = Integer.parseInt(numPlayers);
             ArrayList<Player> players = new ArrayList<Player>(intPlayers);
             for(int i = 0;i< intPlayers; i++) {
+                System.out.printf("Player %d\n",i+1);
                 System.out.println("What is your name?");
                 String name = reader.nextLine();
                 System.out.println("What character would you like to use as an identifier?");
@@ -101,13 +103,14 @@ public class Main {
             String numTurns = reader.nextLine();
             int  intTurns = Integer.parseInt(numTurns);
             main.print();
+            int t;
             for (int turn = 0; turn < intTurns; turn++){
-               for(Player p: players){
+                for(Player p: players){
                    main.turn(p);
                    main.print();
-               }
-               main.evolve();
-               main.print();
+                }
+                main.evolve();
+                main.print();
             }
 
 

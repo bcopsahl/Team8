@@ -122,7 +122,7 @@ public class Board implements Serializable  {
                     string.append(" ");
                     string.append(cells.get(l).toString());
                 } else {
-                    string.append("  ");
+                    string.append(" -");
                 }
             }
             string.append("\n");
