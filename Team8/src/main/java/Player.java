@@ -1,6 +1,11 @@
 package main;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.io.IOException;
 
-class Player{
+class Player implements Serializable{
+    private static final long serialversionUID = 123562994272828L;
     private char id;
     private String name;
     public char getId(){
@@ -23,5 +28,12 @@ class Player{
         char[] d = new char[1];
         d[0] = id;
         return new String(d);
+    }
+    private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
+        inputStream.defaultReadObject();
+        //maybe do some validation here? idk
+    }
+    private void writeObject(ObjectOutputStream outputStream) throws IOException {
+        outputStream.defaultWriteObject();
     }
 }
