@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.io.Writer;
 import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
@@ -19,12 +20,12 @@ import java.util.Scanner;
 public class Board implements Serializable  {
     protected Map<Location,Cell> cells;
     protected int xMin,yMin,xMax,yMax;
-    protected boolean isInfinite;
-
+    private transient PrintStream stdOut;
     public Board(){
         xMin = yMin =   0;
         xMax = yMax = 10;
         cells = new HashMap<Location,Cell>();
+        stdOut = System.out;
     }
 
     public Board(int x, int y){
@@ -32,6 +33,11 @@ public class Board implements Serializable  {
         xMax = x;
         yMax = y;
         cells = new HashMap<Location,Cell>();
+        stdOut = System.out;
+    }
+    
+    protected void  setStdOut(PrintStream w){
+        stdOut = w;
     }
 
     protected boolean isDead(){
@@ -112,7 +118,7 @@ public class Board implements Serializable  {
     protected void print() {
         Location l = new Location();
         StringBuilder string = new StringBuilder();
-        Writer writer = new PrintWriter(System.out);
+        Writer writer = new PrintWriter(stdOut);
         StringBuilder horizontalLine = new StringBuilder();
         clear();
         for( int y = yMin; y <= yMax;y++){
@@ -161,6 +167,15 @@ public class Board implements Serializable  {
             ex.printStackTrace();
         }
         return b;
+    }
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        //out.writeObject(this.stdOut); 
+
+    }
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.stdOut = System.out;   
     }
 
     protected void evolve(){

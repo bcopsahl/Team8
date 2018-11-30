@@ -26,6 +26,9 @@ public class Cell implements Serializable{
     public boolean getAlive() {
         return alive;
     }
+    public Player getOwner(){
+        return owner;
+    }
     
     public void setAlive( boolean isAlive ) {
         alive = isAlive;
@@ -37,9 +40,13 @@ public class Cell implements Serializable{
     }
     @Override
     public boolean equals(Object c){
-        return hashCode() == c.hashCode();
-
+        if( c instanceof Cell){
+            Cell cell = (Cell)c;
+            return cell.getOwner().equals(owner) && alive == cell.getAlive();
+        }
+        return false;
     }
+
     private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
         inputStream.defaultReadObject();
         //maybe do some validation here? idk

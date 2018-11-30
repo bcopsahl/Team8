@@ -61,7 +61,7 @@ public class Main {
                 int y = reader.nextInt();
                 reader.nextLine();
                 Location location = new Location(x,y);
-                if(board.get(location).equals(player)){
+                if(board.get(location).getOwner().equals(player)){
                     board.kill(location);
                     System.out.println("The cell has been brutally murdered you monster");
                 } else{
