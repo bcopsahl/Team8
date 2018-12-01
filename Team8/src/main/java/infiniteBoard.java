@@ -26,8 +26,8 @@ public class infiniteBoard extends Board {
         for(Location l : b){
             g.addAll(l.around().collect(Collectors.toList()));
         }
-        List<Location> nextGen = g.stream().distinct().filter(l -> aliveOrDead(l)).collect(Collectors.toList());
-        List<Location> killed = cells.keySet().stream().filter(l -> !nextGen.contains(l)).collect(Collectors.toList());
+        List<Location> nextGen = g.parallelStream().distinct().filter(l -> aliveOrDead(l)).collect(Collectors.toList());
+        List<Location> killed = cells.keySet().parallelStream().filter(l -> !nextGen.contains(l)).collect(Collectors.toList());
         for(Location l: nextGen){
             if( !cells.containsKey(l)){
                 cells.put(l, new Cell(true));

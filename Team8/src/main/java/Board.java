@@ -112,7 +112,6 @@ public class Board implements Serializable  {
         Location l = new Location();
         StringBuilder string = new StringBuilder();
         Writer writer = new PrintWriter(stdOut);
-        StringBuilder horizontalLine = new StringBuilder();
         clear();
         for( int y = yMin; y <= yMax;y++){
             for( int x = xMin; x <= xMax; x++){

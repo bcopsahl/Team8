@@ -50,6 +50,7 @@ public class BoardTest{
 	}
     @Test
     public void print(){
+
         board = new Board(0,0);
         //this is adopted from a stack overflow answer, its confusing. 
         ByteArrayOutputStream b = new ByteArrayOutputStream();

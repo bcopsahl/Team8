@@ -116,7 +116,7 @@ public class Main {
 
         } else {
             main  = new Main(new BoardFactory().getSingleBoard());
-            main.populate(); 
+            main.populate(true); 
             System.out.println("How would you like the board to evolve? (interval, onKey, number)");
             String evolveType = reader.nextLine();
             boolean interval,repetition,onKey;

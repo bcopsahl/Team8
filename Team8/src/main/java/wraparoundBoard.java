@@ -22,7 +22,7 @@ public class wraparoundBoard extends Board {
     for(Location l : b){
         g.addAll(l.around().collect(Collectors.toList()));
     }
-    List<Location> nextGen = g.stream().distinct().filter(l -> aliveOrDead(l) && !cells.containsKey(l)).collect(Collectors.toList());
+    List<Location> nextGen = g.stream().distinct().filter(l -> aliveOrDead(l)).collect(Collectors.toList());
     List<Location> killed = cells.keySet().stream().filter(l -> !nextGen.contains(l)).collect(Collectors.toList());
     for(Location l : nextGen){
             cells.put(l,new Cell(true));

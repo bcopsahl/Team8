@@ -1,5 +1,4 @@
 package main;
-
 import java.util.Scanner;
 import java.util.Map;
 import java.util.List;
@@ -25,8 +24,8 @@ public class BoardFactory {
             y = reader.nextInt();
         } else {
             if (!boardType.equals("infinite")){ 
-                y = getConsoleDimension("lines")-1;
-                x = (getConsoleDimension("cols")-1)/2;
+                y = getConsoleDimension("lines")-2;
+                x = (getConsoleDimension("cols")-2)/2;
             }
         }
         switch (boardType) {
