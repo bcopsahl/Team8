@@ -5,6 +5,8 @@ import  org.junit.jupiter.params.ParameterizedTest;
 import  org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 import main.*;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.ArrayList;
 public class LocationTest {
@@ -67,7 +69,8 @@ public class LocationTest {
 	@Test
 	public void aroundTest(){
 		Location a = new Location();
-		assertEquals(loc.around(),a.around());
+        List<Location> b = a.around().collect(Collectors.toList());
+		assertTrue(b.containsAll(loc.around().collect(Collectors.toList())));
 	}
 
 }

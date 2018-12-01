@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class wraparoundBoard extends Board {
   public wraparoundBoard(){
@@ -14,49 +16,32 @@ public class wraparoundBoard extends Board {
   }
   @Override
   public void evolve(){
-    Map<Location,Cell> nextgen = new HashMap<Location,Cell>();
-    List<Location>  a;
-    //this does not really need to be a map but it is fast and im lazy
     Map<Location,Boolean> removedCells = new HashMap<Location,Boolean>();
+    List<Location> g = new ArrayList<Location>();
     Set<Location> b = cells.keySet();
     for(Location l : b){
-        a = l.around();
-        for( Location loc : a){
-            wrapAround(loc);
-            if( aliveOrDead(loc) ) {
-                nextgen.putIfAbsent(loc,new Cell(true));
-            }
-        }
-        if( !aliveOrDead(l) ) {
-            removedCells.putIfAbsent(l,true);
-        }
+        g.addAll(l.around().collect(Collectors.toList()));
     }
-    for(Location l: removedCells.keySet()){
+    List<Location> nextGen = g.stream().distinct().filter(l -> aliveOrDead(l) && !cells.containsKey(l)).collect(Collectors.toList());
+    List<Location> killed = cells.keySet().stream().filter(l -> !nextGen.contains(l)).collect(Collectors.toList());
+    for(Location l : nextGen){
+            cells.put(l,new Cell(true));
+    }
+    for(Location l:killed){
         cells.remove(l);
-    }
-    for(Location l: nextgen.keySet()){
-        cells.put(l, new Cell(true));
     }
   }
 
   @Override
   public int detectNearby(Location location){
-        int nearbycount = 0;
-        ArrayList<Location> around = location.around();
-        for( Location l : around){
-            wrapAround(l);
-            if (cells.containsKey(l)){
-                nearbycount++;
-            }
-        }
-
-    return nearbycount;
+      return (int) location.around().filter(l -> cells.containsKey(wrapAround(l))).filter(l -> !l.equals(location)).count();
   }
 
-  private void wrapAround(Location loc){
+  private Location wrapAround(Location loc){
     loc.setX(loc.getX() <= xMax ? loc.getX():xMin);
     loc.setX(loc.getX() >= xMin ? loc.getX():xMax);
     loc.setY(loc.getY() <= yMax ? loc.getY():yMin);
     loc.setY(loc.getY() >= yMin ? loc.getY():yMax);
+    return loc;
   }
 }

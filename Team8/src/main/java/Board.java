@@ -79,7 +79,7 @@ public class Board implements Serializable  {
         return cells.get(loc);
     }
     protected int detectNearby(Location location) {    
-        return location.around().filter(l -> l.equals(location)).filter(l -> cells.get(l)  != null).count();
+        return (int) location.around().filter(l -> !l.equals(location)).filter(l -> cells.get(l)  != null).count();
     }
     protected boolean aliveOrDead(Location location) {
         int count = detectNearby(location);

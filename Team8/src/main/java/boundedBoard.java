@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
 
 public class boundedBoard extends Board {
   public boundedBoard(){
@@ -14,35 +17,21 @@ public class boundedBoard extends Board {
   }
   @Override
   public void evolve(){
-    Map<Location,Cell> nextgen = new HashMap<Location,Cell>();
-    List<Location>  a;
     Map<Location,Boolean> removedCells = new HashMap<Location,Boolean>();
+    List<Location> g = new ArrayList<Location>();
     Set<Location> b = cells.keySet();
-    Cell c;
     for(Location l : b){
-        a = l.around();
-        for( Location loc : a){
-            if(!inBounds(loc)){
-                continue;
-            }
-            if( aliveOrDead(loc)) {
-                nextgen.putIfAbsent(loc,new Cell(true));
-            }
-        }
-        if( !aliveOrDead(l)) {
-            removedCells.put(l,true);
+        g.addAll(l.around().collect(Collectors.toList()));
+    }
+    List<Location> nextGen = g.stream().distinct().filter(l -> aliveOrDead(l)).filter(l -> inBounds(l)).collect(Collectors.toList());
+    List<Location> killed = cells.keySet().stream().filter(l -> !nextGen.contains(l)).collect(Collectors.toList());
+    for(Location l : nextGen){
+        if( !cells.containsKey(l)){
+            cells.put(l,new Cell(true));
         }
     }
-    for(Location l: removedCells.keySet()){
+    for(Location l:killed){
         cells.remove(l);
-    }
-    for(Location l: nextgen.keySet()){
-        if(cells.containsKey(l)){
-            c = cells.get(l);
-        } else{
-            c = new Cell(true);
-        }
-        cells.put(l,c);
     }
   }
 
