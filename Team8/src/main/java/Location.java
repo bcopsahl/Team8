@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.stream.Stream;
 
 public class Location implements Serializable{
     private int X;
@@ -41,18 +42,18 @@ public class Location implements Serializable{
     public void setY(int y){
         Y = y;
     }
-    public ArrayList<Location> around() {
+    public Stream<Location> around() {
         ArrayList<Location> a = new ArrayList<Location>();
         a.add(new Location(X-1,Y-1));
         a.add(new Location(X,Y-1));
         a.add(new Location(X+1,Y-1));
         a.add(new Location(X-1,Y));
-
+        a.add(this);
         a.add(new Location(X+1,Y));
         a.add(new Location(X-1,Y+1));
         a.add(new Location(X,Y+1));
         a.add(new Location(X+1,Y+1));
-        return a;
+        return a.stream();
     }
     @Override
     public int hashCode() {

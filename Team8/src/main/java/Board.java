@@ -3,6 +3,7 @@ import java.lang.Exception;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 import java.util.Random;
 import java.io.Writer;
 import java.io.PrintWriter;
@@ -23,7 +24,7 @@ public class Board implements Serializable  {
     private transient PrintStream stdOut;
     public Board(){
         xMin = yMin =   0;
-        xMax = yMax = 10;
+        xMax = yMax = 9;
         cells = new HashMap<Location,Cell>();
         stdOut = System.out;
     }
@@ -77,16 +78,8 @@ public class Board implements Serializable  {
     public Cell get(Location loc){
         return cells.get(loc);
     }
-
     protected int detectNearby(Location location) {    
-        int nearbycount = 0;
-        ArrayList<Location> around = location.around();
-        for( Location l : around){
-            if(cells.containsKey(l)){
-                nearbycount++;      
-            }
-        }
-        return nearbycount;
+        return location.around().filter(l -> l.equals(location)).filter(l -> cells.get(l)  != null).count();
     }
     protected boolean aliveOrDead(Location location) {
         int count = detectNearby(location);

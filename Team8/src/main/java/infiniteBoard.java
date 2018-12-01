@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.Set;
-
+import java.util.stream.Stream;
 
 public class infiniteBoard extends Board {
     
@@ -20,9 +20,15 @@ public class infiniteBoard extends Board {
     newXMin = newYMin = 100000000;// these should probably be larger/ smaller but i dont remember the package.
     newXMax = newYMax = -100000000;
     Map<Location,Cell> nextgen = new HashMap<Location,Cell>();
-    List<Location>  a;
+    Stream<Location>  a;
     Map<Location,Boolean> removedCells = new HashMap<Location, Boolean>();
     Set<Location> b = cells.keySet();
+    List<Location> all = new List<>();
+    List<Location> s = cells.keySet().stream()
+        .reduce(ArrayList::new,l -> l.around().toArray().toList());
+    ArrayList<Location> killed = s.stream().distinct()
+        .fliter(l -> !aliveOrDead(l)).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+
     for(Location l : b){
         a = l.around();
         for( Location loc : a){
