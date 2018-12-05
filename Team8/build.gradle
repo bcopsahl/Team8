@@ -14,7 +14,6 @@ dependencies {
   }  
 test {
 	jacoco {
-		append = false
 		destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
 	}
     useJUnitPlatform()
@@ -25,7 +24,7 @@ test {
 jar {
 	 manifest {
 		attributes(
-		 'Implementation-Title': 'Gradle Quickstart',
+		 'Implementation-Title': 'Game of Life',
 		 'Implementation-Version': version ,
 		 'Main-Class': 'main.Main')
 	}
