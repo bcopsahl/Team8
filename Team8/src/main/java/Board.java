@@ -43,6 +43,19 @@ public class Board implements Serializable  {
     protected boolean isDead(){
        return cells.isEmpty();  
     }
+    
+    /*iterate through the hashmap of cells and check
+     * how many cells belong to the given owner
+     */
+    protected int checkPlayerCellCount(Player p) {
+    	int cellCount = 0;
+    	for(Cell c : cells.values())
+    	{
+    		if(c.getOwner().equals(p))
+    			cellCount++;
+    	}
+    	return cellCount;
+    }
 
     protected void populate(){
         Random rand;

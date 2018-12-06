@@ -15,7 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     public Board board;
-
+    
+    static boolean isDelete = false;
 
     //constructor sets dimention and calcualtes size of array
     public Main(Board b){
@@ -72,6 +73,13 @@ public class Main {
                 System.out.println("You have elected to pass");
                 return;
             }
+            
+            //if the players cell count drops to 0 delete the player
+            if(board.checkPlayerCellCount(player) == 0)
+            {
+            	player = null;
+            	isDelete = true;
+            }
         }
     }
 
@@ -80,7 +88,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        
+    	
         Main main;
         Scanner reader = new Scanner(System.in);
         System.out.println("Single or multiplayer? (S)ingle/(M)ultiplayer");
@@ -107,13 +115,26 @@ public class Main {
             for (int turn = 0; turn < intTurns; turn++){
                 for(Player p: players){
                    main.turn(p);
+                   //object is removed as well to shift all other positions to the left
+                   if(isDelete)
+                   {
+                	   players.remove(p);
+                       isDelete = false;
+                   }
                    main.print();
+                   //once player size is 1 the winning player will be at index 0 as each removal implies a shift to the left
+                   if(players.size() == 1)
+                   {
+                	   System.out.println("Game over: " + players.get(0) + "is the winner");
+                	   System.exit(0);
+                   }
                 }
                 main.evolve();
                 main.print();
             }
 
-
+            System.out.println("Game over: specified number of turns has elapsed");            
+            
         } else {
             main  = new Main(new BoardFactory().getSingleBoard());
             main.populate(); 
