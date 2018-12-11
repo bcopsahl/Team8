@@ -195,7 +195,7 @@ public class Main {
                 System.out.println("How many seconds between interations?");
                 y = (long) (reader.nextDouble() * 1000);
             }
-
+            reader.nextLine();
             for( int i = 0; i <x; i++){
                 if(interval ||  onKey){
                     main.print();
@@ -212,8 +212,8 @@ public class Main {
                     break;
                 }
                 if(onKey){
-                    String shouldSave = ""; // just in case
-                    System.out.println("If you would like to save the board, enter 'y', otherwise press anything to continue.");
+                    String shouldSave; // just in case
+                    System.out.println("If you would like to save the board, enter 'y'");
                     shouldSave = reader.nextLine();
                     if( shouldSave.equals("y") ) {
                         System.out.println("What should the filename be?");
