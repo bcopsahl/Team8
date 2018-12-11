@@ -41,37 +41,67 @@ public class Main {
         System.out.printf("Hello %s \n",player.getName());
         System.out.println("You get three actions a turn.");
         System.out.println("You can [g]enerate a new cell,[k]ill one of your current cells,[p]ass your turn");
-        for( int i = 0; i < 3; i++){
+        String action;
+        Integer x,y;
+
+        int turns = 0;
+        while(turns < 3){
+            x = y = null;
             System.out.println("Please select an action now");
-            String action = reader.nextLine();
+            action = reader.nextLine();
+            action =action.replaceAll("[\\d[^\\w\\s]]+","");
             if(action.equals("g")){
-                System.out.println("Please input x and y cordinates for the new cell");
-                int x = reader.nextInt();
-                int y = reader.nextInt();
-                reader.nextLine();
-                Location location = new Location(x,y);
+                while(x == null ||  y == null){    
+                    System.out.println("Please input x and y cordinates for the new cell");
+                    if(reader.hasNextInt()){
+                        x = new Integer(reader.nextInt());
+                    }
+                    if(reader.hasNextInt()){
+                        y = new Integer(reader.nextInt());
+                    }
+                    if(x==null|| y==null){
+                        System.out.println("Your input did not work, please try again.");
+                    } 
+                        reader.nextLine();
+
+                }
+                Location location = new Location(x.intValue(),y.intValue());
                 if(board.get(location) == null){
                     board.add(new Location(x,y),new Cell(player));
                     System.out.println(" Congradulations on your new Cell");
+                    print();
+                    turns++;
                 } else {
                     System.out.println("There is already a cell there");
                 }
             }else if(action.equals("k")){
-                System.out.println("Please input x and y cordinates for the cell to kill");
-                int x = reader.nextInt();
-                int y = reader.nextInt();
-                reader.nextLine();
-                Location location = new Location(x,y);
+                while(x == null ||  y == null){    
+                    System.out.println("Please input x and y cordinates for the cell to kill");
+                    if(reader.hasNextInt()){
+                        x = new Integer(reader.nextInt());
+                    }
+                    if(reader.hasNextInt()){
+                        y = new Integer(reader.nextInt());
+                    }
+                    if(x==null|| y==null){
+                        System.out.println("Your input did not work, please try again.");
+                    } 
+                        reader.nextLine();
+                }
+                Location location = new Location(x.intValue(),y.intValue());
                 if(board.get(location).getOwner().equals(player)){
                     board.kill(location);
-                    System.out.println("The cell has been brutally murdered you monster");
+                    turns++;
+                    print();
                 } else{
                     System.out.println("That cell is not yours");
                 }
 
-            } else{
+            } else  if( action.equals("p")){
                 System.out.println("You have elected to pass");
-                return;
+                turns+=3;
+            } else {
+                System.out.println(action+" is not a supported action. Please choose again.");
             }
             
             //if the players cell count drops to 0 delete the player
@@ -125,7 +155,7 @@ public class Main {
                    //once player size is 1 the winning player will be at index 0 as each removal implies a shift to the left
                    if(players.size() == 1)
                    {
-                	   System.out.println("Game over: " + players.get(0) + "is the winner");
+                	   System.out.println("Game over: " + players.get(0).getName() + " is the winner");
                 	   System.exit(0);
                    }
                 }

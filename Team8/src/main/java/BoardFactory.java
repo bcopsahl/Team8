@@ -26,7 +26,7 @@ public class BoardFactory {
         } else {
             if (!boardType.equals("infinite")){ 
                 y = getConsoleDimension("lines")-1;
-                x = (getConsoleDimension("cols")-1)/2;
+                x = (getConsoleDimension("cols")-2)/2;
             }
         }
         switch (boardType) {
@@ -43,7 +43,32 @@ public class BoardFactory {
     
     }
     public static Board  getMultiBoard(){
-        return new boundedBoard(10,10);
+        int x,y;
+        x = y = 10;
+        Board result;
+        Scanner reader = new Scanner(System.in);
+        System.out.println("Type of board: [bounded,wrap-around]");
+        String boardType = reader.nextLine();
+        System.out.println("Select board size? y/auto ");
+        String boardSize = reader.nextLine();
+        if(boardSize.equals("y")){
+            System.out.println("Enter the x dimension: ");
+            x = reader.nextInt();     
+            System.out.println("Enter the y dimension: ");
+            y = reader.nextInt();
+        } else {
+            y = getConsoleDimension("lines")/2;
+            x = (getConsoleDimension("cols")-2)/2;
+        }
+        switch (boardType) {
+            case "bounded": result = new boundedBoard(x,y);
+                            break;
+            case "wrap-around": result = new wraparoundBoard(x,y);
+                            break;
+            default: result = new boundedBoard(x,y);
+                            break;
+        }
+        return result;
     }
 
 
