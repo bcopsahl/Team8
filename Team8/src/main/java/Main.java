@@ -168,13 +168,13 @@ public class Main {
         } else {
 	    System.out.println("Would you like to load a board? (Y)es/(N)o");
 	    String loadBoard = reader.nextLine();
-            main  = new Main(new BoardFactory().getSingleBoard());
+        main  = new Main(new BoardFactory().getSingleBoard());
 	    if( loadBoard.equals("Y") ) {
-		System.out.println("Please enter the filename for the board:");
-		String boardToLoad = reader.nextLine();
-		main.board.load( boardToLoad );
+		  System.out.println("Please enter the filename for the board:");
+		  String boardToLoad = reader.nextLine();
+		  main.board.load( boardToLoad );
 	    } else {
-		main.populate();
+		  main.populate();
 	    } 
             System.out.println("How would you like the board to evolve? (interval, onKey, number)");
             String evolveType = reader.nextLine();
