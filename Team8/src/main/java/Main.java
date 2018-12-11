@@ -212,6 +212,14 @@ public class Main {
                     break;
                 }
                 if(onKey){
+                    String shouldSave = ""; // just in case
+                    System.out.println("If you would like to save the board, enter 'y', otherwise press anything to continue.");
+                    shouldSave = reader.nextLine();
+                    if( shouldSave.equals("y") ) {
+                        System.out.println("What should the filename be?");
+                        String saveFileName = reader.nextLine();
+                        main.board.save( saveFileName );
+                    }
                     reader.next();
                 }
             }
