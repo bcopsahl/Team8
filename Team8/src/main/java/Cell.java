@@ -4,7 +4,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.io.IOException;
-
+import java.lang.Exception;
 
 public class Cell implements Serializable{
     private static final long serialversionUID = 12394994272828L;
@@ -19,8 +19,14 @@ public class Cell implements Serializable{
         alive =true;
         owner = p;
     }
+    @Override
     public String toString(){
-        return owner.toString();
+        try{
+            return owner.toString();
+        } catch(Exception e){
+            e.printStackTrace(); 
+        }
+        return null;
     }
 
     public boolean getAlive() {

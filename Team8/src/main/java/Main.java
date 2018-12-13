@@ -35,6 +35,9 @@ public class Main {
     protected void populate(boolean alive){
         board.populate(alive);
     }
+    private void add(Location l, Cell c){
+        board.add(l,c);
+    }
 
     private void turn(Player player){
         Scanner reader = new  Scanner(System.in);
@@ -49,7 +52,7 @@ public class Main {
             x = y = null;
             System.out.println("Please select an action now");
             action = reader.nextLine();
-            action =action.replaceAll("[\\d[^\\w\\s]]+","");
+            action = action.replaceAll("[\\d[^\\w\\s]]+","");
             if(action.equals("g")){
                 while(x == null ||  y == null){    
                     System.out.println("Please input x and y cordinates for the new cell");
@@ -66,14 +69,16 @@ public class Main {
 
                 }
                 Location location = new Location(x.intValue(),y.intValue());
+                
                 if(board.get(location) == null){
-                    board.add(new Location(x,y),new Cell(player));
+                    add(location,new Cell(player));
                     System.out.println(" Congradulations on your new Cell");
                     print();
                     turns++;
                 } else {
                     System.out.println("There is already a cell there");
                 }
+                //reader.nextLine();
             }else if(action.equals("k")){
                 while(x == null ||  y == null){    
                     System.out.println("Please input x and y cordinates for the cell to kill");
@@ -86,10 +91,10 @@ public class Main {
                     if(x==null|| y==null){
                         System.out.println("Your input did not work, please try again.");
                     } 
-                        reader.nextLine();
+                    reader.nextLine();
                 }
                 Location location = new Location(x.intValue(),y.intValue());
-                if(board.get(location).getOwner().equals(player)){
+                if(board.get(location) != null && board.get(location).getOwner().equals(player)){
                     board.kill(location);
                     turns++;
                     print();
@@ -107,7 +112,7 @@ public class Main {
             //if the players cell count drops to 0 delete the player
             if(board.checkPlayerCellCount(player) == 0)
             {
-            	player = null;
+            	//player = null;
             	isDelete = true;
             }
         }
@@ -125,9 +130,16 @@ public class Main {
         String isMulti = reader.nextLine();
         if( isMulti.equals("M")){
             main =new Main(new  BoardFactory().getMultiBoard());
-            System.out.println("How many players?(2-4)");
-            String numPlayers = reader.nextLine();
-            int intPlayers = Integer.parseInt(numPlayers);
+            int intPlayers = 0;
+            while(intPlayers < 2  || intPlayers > 4){
+                System.out.println("How many players?(2-4)");
+                if(reader.hasNextInt()){
+                    intPlayers = reader.nextInt();
+                }else {
+                    System.out.println( reader.nextLine() + " is not a valid input");
+                }
+            }
+            reader.nextLine();
             ArrayList<Player> players = new ArrayList<Player>(intPlayers);
             for(int i = 0;i< intPlayers; i++) {
                 System.out.printf("Player %d\n",i+1);
@@ -137,12 +149,19 @@ public class Main {
                 char id = reader.nextLine().charAt(0);
                 players.add(new Player(name,id));
             }
-            System.out.println("How many turns should there be in the game?");
-            String numTurns = reader.nextLine();
-            int  intTurns = Integer.parseInt(numTurns);
+            int numTurns = 0;
+            while( numTurns == 0){
+                System.out.println("How many turns should there be in the game?");
+                if(reader.hasNextInt()){
+                    numTurns = reader.nextInt();
+                }else{
+                    System.out.println( reader.nextLine() + " is not a valid input");
+                }
+            }
+            reader.nextLine();
             main.print();
             int t;
-            for (int turn = 0; turn < intTurns; turn++){
+            for (int turn = 0; turn < numTurns; turn++){
                 for(Player p: players){
                    main.turn(p);
                    //object is removed as well to shift all other positions to the left
